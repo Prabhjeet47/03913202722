@@ -1,0 +1,11 @@
+#privatedata
+/privateData.json
+
+#modules
+/Logging Middleware/node_modules/
+/Backend Test Submission/node_modules/
+
+#env variables
+/Backend Test Submission/.env
+
+
