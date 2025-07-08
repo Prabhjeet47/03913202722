@@ -2,6 +2,7 @@ import express, {urlencoded} from "express";
 import dotenv from "dotenv";
 import logmaker from "../Logging Middleware/logMaker.js";
 import {createUrlShortner} from "./controllers/urlservice.js";
+import {connectDb} from "./config/connectdb.js";
 
 dotenv.config();
 
@@ -10,6 +11,8 @@ const app = express();
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+connectDb;
 
 //routes
 app.get("/", (req, res) => {
