@@ -1,4 +1,4 @@
-import express from "express";
+import express, {urlencoded} from "express";
 import dotenv from "dotenv";
 import logmaker from "../Logging Middleware/logMaker.js";
 
@@ -8,6 +8,7 @@ const app = express();
 
 //middlewares
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 //routes
 app.get("/", (req, res) => {
