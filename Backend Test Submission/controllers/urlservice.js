@@ -97,3 +97,37 @@ export const createUrlShortner = async (req, res) => {
     return res.send("error", err.message);
   }
 };
+
+export const getUrlData = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    const entry = await urlModel.findOne({shortcode: id});
+
+    if (!entry) {
+      await logmaker(
+        "backend",
+        "error",
+        "get-info",
+        `Shortcode '${id}' not found`
+      );
+      return res.status(404).json({msg: "Shortcode not found"});
+    }
+
+    const {shortcode, defaulturl, createdAt, expiresAt, clicks} = entry;
+
+    await logmaker("backend", "info", "get-info", `Fetched data for '${id}'`);
+
+    return res.status(200).json({
+      original_url: defaulturl,
+      shortcode,
+      createdAt: createdAt.toISOString().split(".")[0] + "Z",
+      expiresAt: expiresAt.toISOString().split(".")[0] + "Z",
+      clicks,
+    });
+  } catch (err) {
+    console.error(err);
+    await logmaker("backend", "fatal", "get-info", err.message);
+    return res.status(500).json({msg: "Internal server error"});
+  }
+};

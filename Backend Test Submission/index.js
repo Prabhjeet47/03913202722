@@ -1,7 +1,7 @@
 import express, {urlencoded} from "express";
 import dotenv from "dotenv";
 import logmaker from "../Logging Middleware/logMaker.js";
-import {createUrlShortner} from "./controllers/urlservice.js";
+import {createUrlShortner, getUrlData} from "./controllers/urlservice.js";
 import {connectDb} from "./config/connectdb.js";
 
 dotenv.config();
@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
   return res.send("hello from server");
 });
 app.post("/shorturls", createUrlShortner);
+app.get("/shorturls/:id", getUrlData);
 
 app.listen(process.env.PORT, () => {
   console.log(`server running on http://localhost:${process.env.PORT}`);
